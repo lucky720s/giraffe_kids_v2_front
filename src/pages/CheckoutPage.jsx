@@ -45,10 +45,16 @@ const CheckoutPage = () => {
     useEffect(() => {
         if (orderState.loading === 'succeeded' && orderState.currentOrder) {
             const order = orderState.currentOrder;
-            const message = `${t('whatsappGreeting', 'Здравствуйте')}! ${t('order', 'Заказ')} №${order.orderId}.
-${t('whatsappDelivery', 'Доставка')}: ${currentDeliveryNameForMessage}
-${t('whatsappTotal', 'Итого')}: ${order.totalAmount.toFixed(0)} ${t('currency', '₸')}
-${t('whatsappName', 'Имя')}: ${customerName.trim() || '-'}${customerPhone.trim() ? `\n${t('whatsappPhone', 'Телефон')}: ${customerPhone.trim()}` : ''}`;
+            const frontendOrderUrl = `${window.location.origin}/order/${order.orderId}`;
+
+            let message = `${t('whatsappGreeting', 'Здравствуйте')}! ${t('order', 'Заказ')} №${order.orderId} принят.\n`;
+            message += `${t('whatsappDelivery', 'Доставка')}: ${currentDeliveryNameForMessage}\n`;
+            message += `${t('whatsappTotal', 'Итого')}: ${order.totalAmount.toFixed(0)} ${t('currency', '₸')}\n`;
+            message += `${t('whatsappName', 'Имя')}: ${customerName.trim() || '-'}`;
+            if (customerPhone.trim()) {
+                message += `\n${t('whatsappPhone', 'Телефон')}: ${customerPhone.trim()}`;
+            }
+            message += `\n\n${t('viewOrderOnline', 'Посмотреть детали заказа на сайте')}: ${frontendOrderUrl}`;
 
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
@@ -103,7 +109,8 @@ ${t('whatsappName', 'Имя')}: ${customerName.trim() || '-'}${customerPhone.tri
         const orderDetails = {
             items: cartItems.map(item => ({ productId: item.productDetails.id })),
             customerData: { name: customerName.trim(), phone: customerPhone.trim() },
-            deliveryOption: currentDeliveryNameForMessage,
+            deliveryOptionId: selectedDelivery.id,
+           deliveryOptionName: currentDeliveryNameForMessage
         };
         dispatch(createOrder(orderDetails));
     };

@@ -22,6 +22,7 @@
   "inCart": "Себетте",
   "addToCart": "Себетке қосу",
   "removeFromCart": "Себеттен алып тастау",
+  "removeFromCartShort": "Алып тастау",
   "currency": "₸",
   "price": "Бағасы",
   "monthAbbr": "ай",
@@ -48,6 +49,7 @@
   "namePlaceholder": "Атыңызды енгізіңіз",
   "phoneNumber": "Телефон нөмірі",
   "phonePlaceholder": "Телефон нөмірін енгізіңіз (міндетті емес)",
+  "optionalField": "міндетті емес",
   "deliveryMethod": "Жеткізу әдісі",
   "pickup": "Өзі алып кету",
   "deliveryByPost": "Почта арқылы жеткізу",
@@ -92,7 +94,22 @@
     "thisItem": "осы тауарды",
     "confirmButton": "Иә, алып тастау"
   },
-  "removeFromCartShort": "Алып тастау",
   "redirectingToHome": "Бет табылмады. Басты бетке бағытталуда...",
-  "optionalField" : "міндетті емес"
+  "similarProducts": "Ұқсас тауарлар",
+  "noSimilarProducts": "Ұқсас тауарлар табылмады.",
+  "orderNotFound": "Тапсырыс табылмады немесе жүктеу қатесі.",
+  "backToHome": "Басты бетке",
+  "customerDetails": "Клиент деректері",
+  "orderedItems": "Тапсырыстағы тауарлар",
+  "viewOrderOnline": "Тапсырыс бөлшектерін сайттан қарау",
+  "orderStatus": {
+    "pending": "Күтуде",
+    "confirmed": "Расталды",
+    "rejected": "Қабылданбады",
+    "completed": "Орындалды",
+    "unknown": "Белгісіз"
+  },
+  "backToCart": "Себетке оралу",
+  "error.nameTooShort": "Аты көрсетілген болса, кемінде 2 таңбадан тұруы керек.",
+  "error.invalidPhone": "Телефон нөмірін дұрыс енгізілмеді  немесе өрісті бос қалдырыңыз."
 }

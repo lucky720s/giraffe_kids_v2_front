@@ -22,3 +22,10 @@ body {
     --border-radius-md: 0.5rem;
     --border-radius-lg: 0.75rem;
 }
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
