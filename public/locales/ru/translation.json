@@ -22,7 +22,6 @@
   "inCart": "В корзине",
   "addToCart": "В корзину",
   "removeFromCart": "Убрать из корзины",
-  "removeFromCartShort": "Убрать",
   "currency": "₸",
   "price": "Цена",
   "monthAbbr": "мес.",
@@ -49,7 +48,6 @@
   "namePlaceholder": "Введите ваше имя",
   "phoneNumber": "Номер телефона",
   "phonePlaceholder": "Введите номер телефона (необязательно)",
-  "optionalField" : "необязательно",
   "deliveryMethod": "Способ доставки",
   "pickup": "Самовывоз",
   "deliveryByPost": "Доставка почтой",
@@ -94,22 +92,7 @@
     "thisItem": "этот товар",
     "confirmButton": "Да, убрать"
   },
+  "removeFromCartShort": "Убрать",
   "redirectingToHome": "Страница не найдена. Перенаправление на главную...",
-  "similarProducts": "Похожие товары",
-  "noSimilarProducts": "Похожие товары не найдены.",
-  "orderNotFound": "Заказ не найден или ошибка загрузки.",
-  "backToHome": "На главную",
-  "customerDetails": "Данные клиента",
-  "orderedItems": "Товары в заказе",
-  "viewOrderOnline": "Посмотреть детали заказа на сайте",
-  "orderStatus": {
-    "pending": "В ожидании",
-    "confirmed": "Подтвержден",
-    "rejected": "Отклонен",
-    "completed": "Выполнен",
-    "unknown": "Неизвестен"
-  },
-  "backToCart": "Вернуться в корзину",
-  "error.nameTooShort": "Имя должно содержать хотя бы 2 символа, если указано.",
-  "error.invalidPhone": "Пожалуйста, введите корректный номер телефона или оставьте поле пустым."
+  "optionalField" : "необязательно"
 }
