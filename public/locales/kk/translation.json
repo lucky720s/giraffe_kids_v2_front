@@ -1,5 +1,5 @@
 {
-  "shopName": "Giraffe Kids KZ",
+  "shopName": "Giraffe Kids",
   "footer": {
     "copyrightSimple": "© {{year}} {{shopName}}"
   },
@@ -50,7 +50,7 @@
   "phonePlaceholder": "Телефон нөмірін енгізіңіз (міндетті емес)",
   "deliveryMethod": "Жеткізу әдісі",
   "pickup": "Өзі алып кету",
-  "deliveryByPost": "Пошта арқылы жеткізу",
+  "deliveryByPost": "Почта арқылы жеткізу",
   "summary": "Тапсырыс қорытындысы",
   "itemsCost": "Тауарлар құны",
   "deliveryCost": "Жеткізу ({{deliveryName}})",
@@ -93,5 +93,6 @@
     "confirmButton": "Иә, алып тастау"
   },
   "removeFromCartShort": "Алып тастау",
-  "redirectingToHome": "Бет табылмады. Басты бетке бағытталуда..."
+  "redirectingToHome": "Бет табылмады. Басты бетке бағытталуда...",
+  "optionalField" : "міндетті емес"
 }

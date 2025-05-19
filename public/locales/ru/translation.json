@@ -1,8 +1,9 @@
 {
-  "shopName": "Giraffe Kids KZ",
+  "shopName": "Giraffe Kids",
   "footer": {
     "copyrightSimple": "© {{year}} {{shopName}}"
-  },  "loading": "Загрузка...",
+  },
+  "loading": "Загрузка...",
   "error": "Ошибка",
   "back": "Назад",
   "filters": "Фильтры",
@@ -92,5 +93,6 @@
     "confirmButton": "Да, убрать"
   },
   "removeFromCartShort": "Убрать",
-  "redirectingToHome": "Страница не найдена. Перенаправление на главную..."
+  "redirectingToHome": "Страница не найдена. Перенаправление на главную...",
+  "optionalField" : "необязательно"
 }
