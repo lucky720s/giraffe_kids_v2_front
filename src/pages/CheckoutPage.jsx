@@ -15,8 +15,11 @@ import {
 import Loader from '../components/Loader.jsx';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeftIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { addOrderToHistory, getOrderIdsFromHistory } from '../utils/localStorageOrders.js'; // <-- ИСПРАВЛЕНИЕ: Добавлен импорт
+import apiClient from '../services/api'; // <-- ИСПРАВЛЕНИЕ: Добавлен импорт
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '77023289343';
+const PENDING_ORDER_LIMIT = 3;
 
 const DELIVERY_OPTIONS = (t) => [
     { id: 'pickup', name: t('pickup', 'Самовывоз'), price: 0 },
@@ -37,6 +40,7 @@ const CheckoutPage = () => {
     const [customerPhone, setCustomerPhone] = useState('');
     const [selectedDelivery, setSelectedDelivery] = useState(currentDeliveryOptions[0]);
     const [formError, setFormError] = useState('');
+    const [isCheckingPendingOrders, setIsCheckingPendingOrders] = useState(false);
 
     const finalTotalPrice = cartTotalPrice + (selectedDelivery?.price || 0);
     const actualSelectedDeliveryOption = currentDeliveryOptions.find(opt => opt.id === selectedDelivery.id) || currentDeliveryOptions[0];
@@ -44,27 +48,24 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         if (orderState.loading === 'succeeded' && orderState.currentOrder) {
+            console.log(orderState.currentOrder)
             const order = orderState.currentOrder;
+            addOrderToHistory(order.orderId, order.createdAt); // <-- Теперь эта функция должна быть доступна
+
             const frontendOrderUrl = `${window.location.origin}/order/${order.orderId}`;
+            const whatsappMessage =
+                `${t('whatsappGreetingSimple', 'Здравствуйте!')}\n` +
+                `${t('whatsapp.orderAssembled', 'Заказ собран на сайте.')}\n` +
+                `${t('whatsapp.orderDetailsLink', 'Детали заказа')}: ${frontendOrderUrl}`;
 
-            let message = `${t('whatsappGreeting', 'Здравствуйте')}! ${t('order', 'Заказ')} №${order.orderId} принят.\n`;
-            message += `${t('whatsappDelivery', 'Доставка')}: ${currentDeliveryNameForMessage}\n`;
-            message += `${t('whatsappTotal', 'Итого')}: ${order.totalAmount.toFixed(0)} ${t('currency', '₸')}\n`;
-            message += `${t('whatsappName', 'Имя')}: ${customerName.trim() || '-'}`;
-            if (customerPhone.trim()) {
-                message += `\n${t('whatsappPhone', 'Телефон')}: ${customerPhone.trim()}`;
-            }
-            message += `\n\n${t('viewOrderOnline', 'Посмотреть детали заказа на сайте')}: ${frontendOrderUrl}`;
-
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
             dispatch(clearCart());
             dispatch(resetOrderState());
-
-            navigate('/');
+            navigate(`/order/${order.orderId}`, { replace: true });
             window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         }
-    }, [orderState.loading, orderState.currentOrder, navigate, dispatch, currentDeliveryNameForMessage, customerName, customerPhone, t]);
+    }, [orderState.loading, orderState.currentOrder, navigate, dispatch, t]);
 
     useEffect(() => {
         return () => {
@@ -86,7 +87,7 @@ const CheckoutPage = () => {
         setSelectedDelivery(selectedOpt || currentDeliveryOptions[0]);
     };
 
-    const handleSubmitOrder = (event) => {
+    const handleSubmitOrder = async (event) => {
         event.preventDefault();
         setFormError('');
         dispatch(clearOrderError());
@@ -106,11 +107,38 @@ const CheckoutPage = () => {
             return;
         }
 
+        setIsCheckingPendingOrders(true);
+        const orderHistoryIds = getOrderIdsFromHistory();
+        let pendingCount = 0;
+        if (orderHistoryIds.length > 0) {
+            try {
+                const recentOrderIdsToFetch = orderHistoryIds.slice(0, 10).map(o => o.orderId);
+                if (recentOrderIdsToFetch.length > 0) {
+                    const statusPromises = recentOrderIdsToFetch.map(id =>
+                        apiClient.get(`/orders/${id}`).then(res => res.data.status)
+                    );
+                    const statuses = await Promise.all(statusPromises);
+                    pendingCount = statuses.filter(status => status === 'pending').length;
+                }
+            } catch (e) {
+                console.error("Ошибка проверки активных заказов:", e);
+                setFormError(t('error.checkingOrdersError', 'Не удалось проверить активные заказы. Попробуйте позже.'));
+                setIsCheckingPendingOrders(false);
+                return;
+            }
+        }
+        setIsCheckingPendingOrders(false);
+
+        if (pendingCount >= PENDING_ORDER_LIMIT) {
+            setFormError(t('error.pendingOrderLimit', { count: PENDING_ORDER_LIMIT }));
+            return;
+        }
+
         const orderDetails = {
             items: cartItems.map(item => ({ productId: item.productDetails.id })),
             customerData: { name: customerName.trim(), phone: customerPhone.trim() },
             deliveryOptionId: selectedDelivery.id,
-           deliveryOptionName: currentDeliveryNameForMessage
+            deliveryOptionName: currentDeliveryNameForMessage
         };
         dispatch(createOrder(orderDetails));
     };
@@ -125,6 +153,14 @@ const CheckoutPage = () => {
             setTimeout(() => navigate('/'), 100);
         }
     }, [cartItems, orderState.loading, orderState.currentOrder, navigate]);
+
+    if (isCheckingPendingOrders || (cartItems.length > 0 && orderState.loading === 'pending')) {
+        return (
+            <div className="container mx-auto px-4 py-8 min-h-[calc(100vh-200px)] flex items-center justify-center">
+                <Loader />
+            </div>
+        );
+    }
 
     if (cartItems.length === 0 && orderState.loading !== 'pending' && !orderState.currentOrder) {
         return (
@@ -193,7 +229,7 @@ const CheckoutPage = () => {
                                 value={customerName}
                                 onChange={(e) => setCustomerName(e.target.value)}
                                 placeholder={t('namePlaceholder', 'Введите ваше имя')}
-                                disabled={orderState.loading === 'pending'}
+                                disabled={orderState.loading === 'pending' || isCheckingPendingOrders}
                                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-bank-green-light focus:border-bank-green sm:text-sm transition-colors bg-white placeholder-gray-400"
                             />
                         </div>
@@ -205,7 +241,7 @@ const CheckoutPage = () => {
                                 value={customerPhone}
                                 onChange={(e) => setCustomerPhone(e.target.value)}
                                 placeholder={t('phonePlaceholder', '+7 (XXX) XXX-XX-XX')}
-                                disabled={orderState.loading === 'pending'}
+                                disabled={orderState.loading === 'pending' || isCheckingPendingOrders}
                                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-bank-green-light focus:border-bank-green sm:text-sm transition-colors bg-white placeholder-gray-400"
                             />
                         </div>
@@ -223,7 +259,7 @@ const CheckoutPage = () => {
                                     value={option.id}
                                     checked={selectedDelivery.id === option.id}
                                     onChange={handleDeliveryChange}
-                                    disabled={orderState.loading === 'pending'}
+                                    disabled={orderState.loading === 'pending' || isCheckingPendingOrders}
                                     className="h-4 w-4 text-bank-green border-gray-300 focus:ring-bank-green focus:ring-offset-0"
                                 />
                                 <span className="ml-3 block text-sm font-medium text-bank-gray-dark">
@@ -260,12 +296,12 @@ const CheckoutPage = () => {
                     <button
                         type="submit"
                         className="mt-8 w-full flex items-center justify-center px-6 py-3.5 border border-transparent text-base font-medium rounded-lg shadow-lg text-white bg-bank-green hover:bg-bank-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bank-green transition-all duration-150 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
-                        disabled={orderState.loading === 'pending' || cartItems.length === 0 || (orderState.error && orderState.error.unavailableItems && orderState.error.unavailableItems.length > 0) }
+                        disabled={orderState.loading === 'pending' || cartItems.length === 0 || isCheckingPendingOrders || (orderState.error && orderState.error.unavailableItems && orderState.error.unavailableItems.length > 0) }
                     >
-                        {orderState.loading === 'pending' ? (
+                        {isCheckingPendingOrders || orderState.loading === 'pending' ? (
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                         ) : null}
-                        {orderState.loading === 'pending' ? t('processingOrder', 'Обработка...') : t('confirmAndWhatsapp', 'Подтвердить и перейти в WhatsApp')}
+                        {isCheckingPendingOrders ? t('checkout.checkingOrders', 'Проверка заказов...') : orderState.loading === 'pending' ? t('processingOrder', 'Обработка...') : t('confirmAndWhatsapp', 'Подтвердить и перейти в WhatsApp')}
                     </button>
                 </div>
             </form>

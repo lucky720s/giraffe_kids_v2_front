@@ -1,11 +1,12 @@
 // src/components/layout/Header.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom'; // Добавил NavLink для активной ссылки
 import { useSelector } from 'react-redux';
 import { selectCartTotalQuantity } from '../../features/cart/cartSlice';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon, Bars3Icon, XMarkIcon, TicketIcon } from '@heroicons/react/24/outline'; // Добавил TicketIcon
 
+// ... (LanguageSwitcherInline и CartIconLink остаются без изменений) ...
 const LanguageSwitcherInline = () => {
     const { t, i18n } = useTranslation();
     const languages = [
@@ -38,6 +39,7 @@ const LanguageSwitcherInline = () => {
     );
 };
 
+
 const Header = () => {
     const { t } = useTranslation();
     const totalQuantity = useSelector(selectCartTotalQuantity);
@@ -61,6 +63,7 @@ const Header = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isMobileMenuOpen]);
+
     const CartIconLink = ({ className = "" }) => (
         <Link
             to="/cart"
@@ -77,26 +80,37 @@ const Header = () => {
         </Link>
     );
 
+    const navLinkClasses = "text-sm font-medium text-bank-gray-dark hover:text-bank-green transition-colors px-3 py-2 rounded-md";
+    const activeNavLinkClasses = "bg-bank-green-light text-bank-green-dark";
+
+
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16 md:h-20">
-                    {/* Логотип */}
                     <Link to="/" className="text-2xl sm:text-3xl font-bold text-bank-green flex items-center hover:opacity-80 transition-opacity">
                         <img src="/assets/favicon.ico" alt={t('shopName', 'Giraffe Kids KZ')} className="h-8 w-8 mr-2 sm:h-9 sm:w-9" />
                         {t('shopName', 'Giraffe Kids KZ')}
                     </Link>
-                    <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+
+                    {/* Навигация для десктопа */}
+                    <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+                        <NavLink to="/history" className={({isActive}) => `${navLinkClasses} ${isActive ? activeNavLinkClasses : ''}`}>
+                            {t('header.orderHistory', 'История заказов')}
+                        </NavLink>
+                        {/* Можно добавить другие ссылки сюда */}
                         <LanguageSwitcherInline />
                         <CartIconLink />
                     </nav>
+
+                    {/* Иконки и бургер для мобильной версии */}
                     <div className="md:hidden flex items-center space-x-2">
                         <CartIconLink />
                         <button
                             id="mobile-menu-button"
                             onClick={toggleMobileMenu}
                             className="p-2 rounded-md text-bank-gray-dark hover:text-bank-green hover:bg-bank-gray-light focus:outline-none"
-                            aria-label="Открыть меню"
+                            aria-label={t('navbar.openMenu', 'Открыть меню')}
                         >
                             {isMobileMenuOpen ? <XMarkIcon className="h-7 w-7" /> : <Bars3Icon className="h-7 w-7" />}
                         </button>
@@ -104,22 +118,33 @@ const Header = () => {
                 </div>
             </div>
 
+            {/* Выпадающее Мобильное меню */}
             <div
                 ref={mobileMenuRef}
                 className={`md:hidden absolute top-16 md:top-20 left-0 w-full bg-white shadow-xl rounded-b-lg border-t border-gray-200 transform transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-4 invisible'}`}
             >
                 {isMobileMenuOpen && (
-                    <div className="px-4 pt-3 pb-4 space-y-3">
+                    <div className="px-2 pt-2 pb-3 space-y-1">
                         <Link
                             to="/"
                             onClick={toggleMobileMenu}
-                            className="block px-3 py-3 rounded-md text-base font-medium text-bank-gray-dark hover:text-bank-green hover:bg-bank-gray-light transition-colors"
+                            className="flex items-center px-3 py-2 rounded-md text-base font-medium text-bank-gray-dark hover:text-bank-green hover:bg-bank-gray-light transition-colors"
                         >
                             {t('navbar.home', 'Главная')}
                         </Link>
-                        <div className="border-t border-gray-200 pt-3">
-                            <p className="px-1 text-xs font-semibold uppercase text-bank-gray-DEFAULT/80 tracking-wider mb-1.5">{t('navbar.languageTitle', 'Язык')}</p>
-                            <LanguageSwitcherInline />
+                        <Link
+                            to="/history"
+                            onClick={toggleMobileMenu}
+                            className="flex items-center px-3 py-2 rounded-md text-base font-medium text-bank-gray-dark hover:text-bank-green hover:bg-bank-gray-light transition-colors"
+                        >
+                            <TicketIcon className="h-5 w-5 mr-2 text-bank-gray-dark group-hover:text-bank-green" />
+                            {t('header.orderHistory', 'История заказов')}
+                        </Link>
+                        <div className="border-t border-gray-200 pt-3 mt-2">
+                            <p className="px-3 text-xs font-semibold uppercase text-bank-gray-DEFAULT/80 tracking-wider mb-1.5">{t('navbar.languageTitle', 'Язык')}</p>
+                            <div className="px-3">
+                                <LanguageSwitcherInline />
+                            </div>
                         </div>
                     </div>
                 )}

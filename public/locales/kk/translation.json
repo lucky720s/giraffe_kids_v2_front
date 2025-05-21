@@ -1,5 +1,5 @@
 {
-  "shopName": "Giraffe Kids",
+  "shopName": "Giraffe Kids KZ",
   "footer": {
     "copyrightSimple": "© {{year}} {{shopName}}"
   },
@@ -8,7 +8,7 @@
   "back": "Артқа",
   "filters": "Сүзгілер",
   "clearAllFilters": "Барлық сүзгілерді тастау",
-  "brand": "Бренд",
+  "brand": "Киімдер",
   "age": "Жасы",
   "gender": "Жынысы",
   "Мальчик": "Ұл",
@@ -22,6 +22,7 @@
   "inCart": "Себетте",
   "addToCart": "Себетке қосу",
   "removeFromCart": "Себеттен алып тастау",
+  "removeFromCartShort": "Алып тастау",
   "currency": "₸",
   "price": "Бағасы",
   "monthAbbr": "ай",
@@ -38,7 +39,7 @@
   "total": "Барлығы",
   "totalItems": "Тауарлар саны",
   "totalPrice": "Жалпы құны",
-  "checkout": "Тапсырысты рәсімдеу",
+  "checkoutButtonText": "Тапсырысты рәсімдеу",
   "clearCart": "Себетті тазалау",
   "confirmClearCart": "Себетті тазалағыңыз келетініне сенімдісіз бе?",
   "removeItem": "Тауарды жою",
@@ -48,6 +49,7 @@
   "namePlaceholder": "Атыңызды енгізіңіз",
   "phoneNumber": "Телефон нөмірі",
   "phonePlaceholder": "Телефон нөмірін енгізіңіз (міндетті емес)",
+  "optionalField": "міндетті емес",
   "deliveryMethod": "Жеткізу әдісі",
   "pickup": "Өзі алып кету",
   "deliveryByPost": "Почта арқылы жеткізу",
@@ -62,6 +64,7 @@
   "returnToCart": "Себетке оралу",
   "unknownError": "Белгісіз қате пайда болды.",
   "whatsappGreeting": "Сәлеметсіз бе",
+  "whatsappGreetingSimple": "Сәлеметсіз бе!",
   "order": "Тапсырыс",
   "whatsappOrderPlaced": "Сіздің №{{orderId}} тапсырысыңыз қабылданды.",
   "whatsappProducts": "Тауарлар",
@@ -70,13 +73,16 @@
   "whatsappCountItems": "Тауарлар саны",
   "whatsappName": "Аты",
   "whatsappPhone": "Телефон",
+  "whatsapp.orderAssembled": "Тапсырыс сайтта жиналды.",
+  "whatsapp.orderDetailsLink": "Тапсырыс бөлшектері",
   "language": {
     "kk": "Қаз",
     "ru": "Рус"
   },
   "navbar": {
     "languageTitle": "Тіл",
-    "home": "Басты бет"
+    "home": "Басты бет",
+    "openMenu": "Мәзірді ашу"
   },
   "homePage": {
     "contentPlaceholder": "Дүкеннің басты бетінің мазмұны осында пайда болады. Жақында біз тауарлар тізімі мен сүзгілерді қосамыз!"
@@ -94,5 +100,43 @@
   },
   "removeFromCartShort": "Алып тастау",
   "redirectingToHome": "Бет табылмады. Басты бетке бағытталуда...",
-  "optionalField" : "міндетті емес"
+  "similarProducts": "Ұқсас тауарлар",
+  "noSimilarProducts": "Ұқсас тауарлар табылмады.",
+  "failedToLoadSimilarProducts": "Ұқсас тауарларды жүктеу мүмкін болмады.",
+  "orderNotFound": "Тапсырыс табылмады немесе жүктеу қатесі.",
+  "backToHome": "Басты бетке",
+  "customerDetails": "Клиент деректері",
+  "orderedItems": "Тапсырыстағы тауарлар",
+  "viewOrderOnline": "Тапсырыс бөлшектерін сайттан қарау",
+  "orderStatus": {
+    "pending": "Күтуде",
+    "confirmed": "Расталды",
+    "rejected": "Қабылданбады",
+    "completed": "Орындалды",
+    "unknown": "Белгісіз",
+    "error_loading": "Жүктеу қатесі"
+  },
+  "backToCart": "Себетке оралу",
+  "error": {
+    "nameTooShort": "Аты көрсетілген болса, кемінде 2 таңбадан тұруы керек.",
+    "invalidPhone": "Телефон нөмірін дұрыс енгізіңіз (мысалы, 8 XXX XXX XX XX) немесе өрісті бос қалдырыңыз.",
+    "pendingOrderLimit": "Сізде {{count}} немесе одан да көп тапсырыс күтуде. Олардың өңделуін күтіңіз.",
+    "checkingOrdersError": "Белсенді тапсырыстарды тексеру мүмкін болмады. Кейінірек қайталап көріңіз."
+  },
+  "header": {
+    "orderHistory": "Тапсырыстар тарихы"
+  },
+  "history": {
+    "title": "Тапсырыстар тарихы",
+    "refresh": "Тарихты жаңарту",
+    "empty": "Бұл құрылғыда сіздің тапсырыс тарихыңыз әлі жоқ.",
+    "goToShop": "Басты бетке оралу",
+    "viewDetails": "Толығырақ қарау",
+    "errorLoading": "Тапсырыстар тарихын жүктеу мүмкін болмады.",
+    "errorLoadingDetails": "Бұл тапсырыстың толық бөлшектерін жүктеу мүмкін болмады."
+  },
+  "checkout": {
+    "checkingOrders": "Тапсырыстар тексерілуде..."
+  },
+  "piecesAbbreviation": "дана"
 }

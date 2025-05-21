@@ -9,6 +9,7 @@ import CheckoutPage from "./pages/CheckoutPage.jsx";
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import CartChecker from './utils/CartChecker';
 import OrderDetailsPage from './pages/OrderDetailsPage';
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 function App() {
     return (
         <Router>
@@ -20,6 +21,7 @@ function App() {
                     <Route path="cart" element={<CartPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="order/:orderId" element={<OrderDetailsPage />} />
+                    <Route path="history" element={<OrderHistoryPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Route>
             </Routes>

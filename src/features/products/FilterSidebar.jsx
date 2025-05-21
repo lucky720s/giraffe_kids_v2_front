@@ -89,7 +89,7 @@ const FilterSidebar = () => {
 
             {availableBrands.length > 0 && (
                 <div className="filter-group">
-                    <h4 className="text-sm font-semibold text-bank-gray-dark mb-2">{t('brand', 'Бренд')}</h4>
+                    <h4 className="text-sm font-semibold text-bank-gray-dark mb-2">{t('brand', 'Одежды')}</h4>
                     <div className="flex flex-wrap gap-2">
                         {availableBrands.map((brand) => (
                             <button

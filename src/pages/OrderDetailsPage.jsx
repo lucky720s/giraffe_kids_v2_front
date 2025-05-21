@@ -38,9 +38,12 @@ const getStatusInfo = (status, tFunction) => {
     }
 };
 
-const DELIVERY_OPTIONS_TRANSLATION_KEYS = {
-    pickup: 'pickup',
-    post: 'deliveryByPost',
+const getDeliveryOptionDetails = (optionId, t) => {
+    const options = [
+        { id: 'pickup', name: t('pickup', 'Самовывоз'), price: 0 },
+        { id: 'post', name: t('deliveryByPost', 'Доставка почтой'), price: 1500 },
+    ];
+    return options.find(opt => opt.id === optionId);
 };
 
 const OrderDetailsPage = () => {
@@ -95,11 +98,23 @@ const OrderDetailsPage = () => {
 
     const statusInfo = getStatusInfo(order.status, t);
 
-    let displayDeliveryOption = order.deliveryOptionNameSnapshot || '-';
-    if (order.deliveryOptionId && DELIVERY_OPTIONS_TRANSLATION_KEYS[order.deliveryOptionId]) {
-        displayDeliveryOption = t(DELIVERY_OPTIONS_TRANSLATION_KEYS[order.deliveryOptionId], order.deliveryOptionNameSnapshot || order.deliveryOptionId);
-    }
+    let displayDeliveryOptionText = order.deliveryOptionNameSnapshot || '-';
+    const selectedDeliveryOptionDetails = order.deliveryOptionId
+        ? getDeliveryOptionDetails(order.deliveryOptionId, t)
+        : null;
 
+    if (selectedDeliveryOptionDetails) {
+        displayDeliveryOptionText = selectedDeliveryOptionDetails.name;
+        if (selectedDeliveryOptionDetails.price > 0) {
+            displayDeliveryOptionText += ` (+${selectedDeliveryOptionDetails.price.toFixed(0)} ${t('currency', '₸')})`;
+        }
+    } else if (!order.deliveryOptionId && order.deliveryOptionNameSnapshot) {
+        const deliveryPostRu = t('deliveryByPost', '', { lng: 'ru' });
+        const deliveryPostKk = t('deliveryByPost', '', { lng: 'kk' });
+        if(order.deliveryOptionNameSnapshot === deliveryPostRu || order.deliveryOptionNameSnapshot === deliveryPostKk){
+            displayDeliveryOptionText = `${order.deliveryOptionNameSnapshot} (+1500 ${t('currency', '₸')})`;
+        }
+    }
 
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
@@ -143,7 +158,7 @@ const OrderDetailsPage = () => {
                             <TruckIcon className="h-6 w-6 mr-2 text-bank-green" />
                             {t('deliveryMethod', 'Способ доставки')}
                         </h2>
-                        <p className="text-sm pl-8">{displayDeliveryOption}</p>
+                        <p className="text-sm pl-8">{displayDeliveryOptionText}</p>
                     </div>
 
                     <div className="space-y-4">

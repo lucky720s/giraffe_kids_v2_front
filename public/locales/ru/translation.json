@@ -1,14 +1,20 @@
 {
-  "shopName": "Giraffe Kids",
+  "shopName": "Giraffe Kids KZ",
   "footer": {
     "copyrightSimple": "© {{year}} {{shopName}}"
   },
   "loading": "Загрузка...",
-  "error": "Ошибка",
+  "error": {
+    "default": "Ошибка",
+    "nameTooShort": "Имя должно содержать хотя бы 2 символа, если указано.",
+    "invalidPhone": "Пожалуйста, введите корректный номер телефона (например, 8 XXX XXX XX XX) или оставьте поле пустым.",
+    "pendingOrderLimit": "У вас уже есть {{count}} или более заказов в ожидании. Пожалуйста, дождитесь их обработки.",
+    "checkingOrdersError": "Не удалось проверить активные заказы. Попробуйте позже."
+  },
   "back": "Назад",
   "filters": "Фильтры",
   "clearAllFilters": "Сбросить все",
-  "brand": "Бренд",
+  "brand": "Одежды",
   "age": "Возраст",
   "gender": "Пол",
   "Мальчик": "Мальчик",
@@ -22,6 +28,7 @@
   "inCart": "В корзине",
   "addToCart": "В корзину",
   "removeFromCart": "Убрать из корзины",
+  "removeFromCartShort": "Убрать",
   "currency": "₸",
   "price": "Цена",
   "monthAbbr": "мес.",
@@ -38,7 +45,7 @@
   "total": "Итого",
   "totalItems": "Количество товаров",
   "totalPrice": "Общая стоимость",
-  "checkout": "Оформить заказ",
+  "checkoutButtonText": "Оформить заказ",
   "clearCart": "Очистить корзину",
   "confirmClearCart": "Вы уверены, что хотите очистить корзину?",
   "removeItem": "Удалить товар",
@@ -48,6 +55,7 @@
   "namePlaceholder": "Введите ваше имя",
   "phoneNumber": "Номер телефона",
   "phonePlaceholder": "Введите номер телефона (необязательно)",
+  "optionalField": "необязательно",
   "deliveryMethod": "Способ доставки",
   "pickup": "Самовывоз",
   "deliveryByPost": "Доставка почтой",
@@ -62,6 +70,7 @@
   "returnToCart": "Вернуться в корзину",
   "unknownError": "Произошла неизвестная ошибка.",
   "whatsappGreeting": "Здравствуйте",
+  "whatsappGreetingSimple": "Здравствуйте!",
   "order": "Заказ",
   "whatsappOrderPlaced": "Ваш заказ №{{orderId}} принят.",
   "whatsappProducts": "Товары",
@@ -70,13 +79,16 @@
   "whatsappCountItems": "Количество товаров",
   "whatsappName": "Имя",
   "whatsappPhone": "Телефон",
+  "whatsapp.orderAssembled": "Заказ собран на сайте.",
+  "whatsapp.orderDetailsLink": "Детали заказа",
   "language": {
     "kk": "Қаз",
     "ru": "Рус"
   },
   "navbar": {
     "languageTitle": "Язык",
-    "home": "Главная"
+    "home": "Главная",
+    "openMenu": "Открыть меню"
   },
   "homePage": {
     "contentPlaceholder": "Содержимое главной страницы магазина появится здесь. Скоро мы добавим список товаров и фильтры!"
@@ -92,7 +104,38 @@
     "thisItem": "этот товар",
     "confirmButton": "Да, убрать"
   },
-  "removeFromCartShort": "Убрать",
   "redirectingToHome": "Страница не найдена. Перенаправление на главную...",
-  "optionalField" : "необязательно"
+  "similarProducts": "Похожие товары",
+  "noSimilarProducts": "Похожие товары не найдены.",
+  "failedToLoadSimilarProducts": "Не удалось загрузить похожие товары.",
+  "orderNotFound": "Заказ не найден или ошибка загрузки.",
+  "backToHome": "На главную",
+  "customerDetails": "Данные клиента",
+  "orderedItems": "Товары в заказе",
+  "viewOrderOnline": "Посмотреть детали заказа на сайте",
+  "orderStatus": {
+    "pending": "В ожидании",
+    "confirmed": "Подтвержден",
+    "rejected": "Отклонен",
+    "completed": "Выполнен",
+    "unknown": "Неизвестен",
+    "error_loading": "Ошибка загрузки"
+  },
+  "backToCart": "Вернуться в корзину",
+  "header": {
+    "orderHistory": "История заказов"
+  },
+  "history": {
+    "title": "История заказов",
+    "refresh": "Обновить историю",
+    "empty": "У вас еще нет истории заказов на этом устройстве.",
+    "goToShop": "Перейти в магазин",
+    "viewDetails": "Посмотреть детали",
+    "errorLoading": "Не удалось загрузить историю заказов.",
+    "errorLoadingDetails": "Не удалось загрузить полные детали этого заказа."
+  },
+  "checkout": {
+    "checkingOrders": "Проверка заказов..."
+  },
+  "piecesAbbreviation": "шт."
 }
