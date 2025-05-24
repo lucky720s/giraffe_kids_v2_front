@@ -31,8 +31,6 @@
   "removeFromCartShort": "Убрать",
   "currency": "₸",
   "price": "Цена",
-  "monthAbbr": "мес.",
-  "yearAbbr": "г.",
   "yearFull": "года",
   "yearSingular": "год",
   "productNotFound": "Товар не найден",
@@ -137,5 +135,11 @@
   "checkout": {
     "checkingOrders": "Проверка заказов..."
   },
-  "piecesAbbreviation": "шт."
+  "piecesAbbreviation": "шт.",
+  "monthAbbr": "мес.",
+  "yearAbbr": "г.",
+  "year_one": "год",
+  "year_few": "года",
+  "year_many": "лет",
+  "year_other": "лет"
 }
